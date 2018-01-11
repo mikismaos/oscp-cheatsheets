@@ -80,6 +80,12 @@ sc config [service_name] obj= ".\LocalSystem" password= ""
 sc qc [service_name] (to verify!)
 net start [service_name]
 
+// add user to local group
+net localgroup "Users" IWAM_BOB /add
+
+// display permissions on every file
+c:\inetpub\accesschk.exe /accepteula -s -d IWAM_BOB c:\*.*
+
 Mostly all of this taken from http://www.fuzzysecurity.com/tutorials/16.html [1]
 
 Links:
