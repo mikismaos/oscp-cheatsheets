@@ -13,10 +13,10 @@ net user [username]
 // Networking stuff
 ipconfig /all
 
-// Printer?
+// Routing tables
 route print
 
-// ARP-arific
+// ARP cache table for all interfaces
 arp -A
 
 // Active network connections
@@ -29,11 +29,16 @@ netsh firewall show config
 // Scheduled tasks
 schtasks /query /fo LIST /v
 
-// Running processes to started services
-tasklist /SVC
+// List all started services (DISPLAY_NAME)
 net start
 
-// Driver madness
+// List running processes
+tasklist
+
+// Mapping of running processes to started services
+tasklist /SVC
+
+// List all drivers
 DRIVERQUERY
 
 // WMIC fun (Win 7/8 -- XP requires admin)
@@ -50,11 +55,19 @@ wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:"KB.." /C:"KB
 reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
 reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
 
-// Other commands to run to hopefully get what we need
+// Quick wins
 dir /s *pass* == *cred* == *vnc* == *.config*
 findstr /si password *.xml *.ini *.txt
 reg query HKLM /f password /t REG_SZ /s
 reg query HKCU /f password /t REG_SZ /s
+
+// Policy Preference files that may have "cPassword" attribute set:
+Groups.xml: documented password encryption, can be decrypted **SOS**
+Services\Services.xml: Element-Specific Attributes
+ScheduledTasks\ScheduledTasks.xml: Task Inner Element, TaskV2 Inner Element, ImmediateTaskV2 Inner Element
+Printers\Printers.xml: SharedPrinter Element
+Drives\Drives.xml: Element-Specific Attributes
+DataSources\DataSources.xml: Element-Specific Attributes
 
 // Service permissions
 sc query
