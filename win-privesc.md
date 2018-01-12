@@ -90,7 +90,7 @@ accesschk.exe <username> -c *
 // display permissions on every file  
 accesschk.exe /accepteula -s -d IWAM_BOB c:\*.*  
 // only Read-Write  
-acaccesschk.exe /accepteula -s -d IWAM_BOB c:\*.* | find "RW"   
+accesschk.exe /accepteula -s -d IWAM_BOB c:\*.* | find "RW"   
 
 accesschk.exe -ucqv [service_name]   
 accesschk.exe -uwcqv "[Group name you belong to]" *   
