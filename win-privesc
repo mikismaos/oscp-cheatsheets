@@ -74,7 +74,11 @@ sc query
 sc qc [service_name]
 
 // Accesschk (part of "sysinternals")
-accesschk.exe /accepteula (need to do that with all sysinternal tools in the first time (?))
+accesschk.exe /accepteula (need to add that if you don't have GUI. maybe only the first time?)
+
+//List all user permissions
+accesschk.exe “domain\user” -a *
+
 accesschk.exe -ucqv [service_name] 
 accesschk.exe -uwcqv "[Group name you belong to]" * 
 
@@ -96,6 +100,8 @@ net localgroup "Users" IWAM_BOB /add
 
 // display permissions on every file
 c:\inetpub\accesschk.exe /accepteula -s -d IWAM_BOB c:\*.*
+// only Read-Write
+c:\inetpub\accesschk.exe /accepteula -s -d IWAM_BOB c:\*.* | find "RW" 
 
 Mostly all of this taken from http://www.fuzzysecurity.com/tutorials/16.html [1]
 
