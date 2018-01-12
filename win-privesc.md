@@ -43,7 +43,6 @@ DRIVERQUERY
 
 // WMIC fun (Win 7/8 -- XP requires admin)
 wmic /?
-# Use wmic_info script!
 
 // WMIC: check patch level
 wmic qfe get Caption,Description,HotFixID,InstalledOn
