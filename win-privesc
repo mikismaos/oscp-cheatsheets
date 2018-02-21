@@ -1,3 +1,5 @@
+// All system info, (OS, patches, architecture, etc, etc):
+systeminfo
 
 // What system are we connected to?  
 systeminfo | findstr /B /C:"OS Name" /C:"OS Version"
